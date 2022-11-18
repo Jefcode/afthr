@@ -15,7 +15,7 @@ const DishesList = () => {
   };
 
   const addDishHandler = (dish) => {
-    setDishes((prevDishes) => prevDishes.concat(dish));
+    setDishes((prevDishes) => [dish, ...prevDishes]);
   };
 
   return (
