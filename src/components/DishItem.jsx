@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 // Images
 import DishImg from '../Images/dish.png';
 
@@ -6,11 +8,23 @@ import MenuIcon from '../Images/Icons/menu.svg';
 import DeleteIcon from '../Images/Icons/trash.svg';
 import EditIcon from '../Images/Icons/edit.svg';
 
+const dishVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+  },
+};
+
 const DishItem = ({ dish, num, onRemove }) => {
   return (
-    <li
+    <motion.li
       key={dish.id}
-      className='flex items-center justify-between px-6 py-4 space-x-10 transition duration-200 bg-lightGray rounded-3xl hover:bg-neutral-50'
+      variants={dishVariants}
+      initial='visible'
+      exit='hidden'
+      className='flex items-center justify-between px-6 py-4 space-x-10 transition-colors duration-200 bg-lightGray rounded-3xl hover:bg-neutral-50'
     >
       {/* Drag Button + Number */}
       <div className='flex items-center space-x-5'>
@@ -55,7 +69,7 @@ const DishItem = ({ dish, num, onRemove }) => {
           <img src={EditIcon} className='w-full' alt='Delete Icon' />
         </button>
       </div>
-    </li>
+    </motion.li>
   );
 };
 

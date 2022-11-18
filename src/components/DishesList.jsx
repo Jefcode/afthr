@@ -48,14 +48,16 @@ const DishesList = () => {
       <div className='container px-6 mx-auto mb-10'>
         {/* Dishes List */}
         <ul className='flex flex-col space-y-2.5 text-darkGray'>
-          {dishes.map((dish, idx) => (
-            <DishItem
-              onRemove={removeDishHandler}
-              key={dish.id}
-              num={idx + 1}
-              dish={dish}
-            />
-          ))}
+          <AnimatePresence>
+            {dishes.map((dish, idx) => (
+              <DishItem
+                onRemove={removeDishHandler}
+                key={dish.id}
+                num={idx + 1}
+                dish={dish}
+              />
+            ))}
+          </AnimatePresence>
         </ul>
       </div>
 
