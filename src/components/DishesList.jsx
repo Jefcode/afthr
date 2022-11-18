@@ -10,6 +10,10 @@ const DishesList = () => {
   const [dishModalOpen, setDishModalOpen] = useState(false);
   const [dishes, setDishes] = useState(DISHES);
 
+  const removeDishHandler = (id) => {
+    setDishes((prevDishes) => prevDishes.filter((dish) => dish.id !== id));
+  };
+
   return (
     <>
       {/* Sample Menu / Add Dish Button Flex Container */}
@@ -40,11 +44,17 @@ const DishesList = () => {
         </button>
       </div>
 
+      {/* Dishes List Container */}
       <div className='container px-6 mx-auto mb-10'>
         {/* Dishes List */}
         <ul className='flex flex-col space-y-2.5 text-darkGray'>
           {dishes.map((dish, idx) => (
-            <DishItem key={dish.id} num={idx + 1} dish={dish} />
+            <DishItem
+              onRemove={removeDishHandler}
+              key={dish.id}
+              num={idx + 1}
+              dish={dish}
+            />
           ))}
         </ul>
       </div>
