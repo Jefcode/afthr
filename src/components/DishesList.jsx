@@ -41,7 +41,7 @@ const DishesList = () => {
 
         {/* Add a Dish Button */}
         <button
-          className='px-6 py-4 ml-auto font-semibold text-white bg-primary rounded-2xl'
+          className='px-6 py-4 ml-auto font-semibold text-white bg-primary rounded-2xl whitespace-nowrap'
           onClick={() => setDishModalOpen(true)}
         >
           Add a Dish

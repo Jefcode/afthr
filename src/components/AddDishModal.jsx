@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,7 +9,6 @@ import EditIcon from '../Images/Icons/edit.svg';
 import ExportIcon from '../Images/Icons/export.svg';
 import CloseIcond from '../Images/Icons/close-square.svg';
 import { addDishSchema } from './formSchemas';
-import { useState } from 'react';
 
 const modalVariants = {
   closed: {
@@ -57,15 +57,16 @@ const AddDishModal = ({ onClose, onAdd }) => {
       animate='open'
       exit='closed'
       transition={{ duration: 0.4 }}
+      className='fixed right-0 z-30 flex items-start justify-center w-full h-full py-10 overflow-y-auto'
     >
       {/* Backdrop */}
       <div
         onClick={() => onClose()}
-        className='fixed top-0 right-0 z-30 w-full h-full bg-black/75'
+        className='fixed top-0 right-0 w-full h-full bg-black/75'
       ></div>
 
       {/* Modal */}
-      <div className='fixed top-10 right-50% translate-x-50% z-40 w-full max-w-2xl rounded-3xl bg-white px-14 py-8'>
+      <div className='relative z-40 w-full h-auto max-w-2xl py-8 bg-white rounded-3xl px-14'>
         {/* Form Title + Form Descriptio container */}
         <div className='relative mb-8'>
           <h3 className='mb-2 text-lg font-semibold text-primary'>
@@ -151,7 +152,7 @@ const AddDishModal = ({ onClose, onAdd }) => {
                   onChange: changeDescriptionHandler,
                 })}
                 maxLength={MAX_DESC_LENGTH}
-                className={`w-full h-40 p-6 font-medium transition border outline-none resize-none pr-14 text-stone-800 placeholder:text-darkGray border-stone-300/80 rounded-2xl focus:border-stone-600 ${
+                className={`w-full h-40 p-6 font-medium transition border outline-none resize-none pr-14 text-stone-800 placeholder:text-darkGray border-stone-300/80 rounded-2xl focus:border-stone-600 overflow-hidden ${
                   errors.description ? '!border-red-500' : 'border-stone-300/80'
                 }`}
                 placeholder='Describe your dish and it’s Ingredients here.'
@@ -164,7 +165,10 @@ const AddDishModal = ({ onClose, onAdd }) => {
               </span>
 
               {/* Edit Button */}
-              <button className='absolute flex items-center justify-center w-10 h-10 p-2.5 top-6 right-6 bg-secondary rounded-xl'>
+              <button
+                type='button'
+                className='absolute flex items-center justify-center w-10 h-10 p-2.5 top-6 right-6 bg-secondary rounded-xl'
+              >
                 <img src={EditIcon} className='w-full' alt='Edit Icon' />
               </button>
             </div>
