@@ -1,10 +1,14 @@
 import { motion } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import ReserveIcon from '../Images/Icons/reserve.svg';
 import PriceIcon from '../Images/Icons/dollar-circle.svg';
 import EditIcon from '../Images/Icons/edit.svg';
 import ExportIcon from '../Images/Icons/export.svg';
 import CloseIcond from '../Images/Icons/close-square.svg';
+import { addDishSchema } from './formSchemas';
+import { useState } from 'react';
 
 const modalVariants = {
   closed: {
@@ -15,7 +19,37 @@ const modalVariants = {
   },
 };
 
-const AddDishModal = ({ onClose }) => {
+export const MAX_DESC_LENGTH = 200;
+
+const AddDishModal = ({ onClose, onAdd }) => {
+  const [remainingLetters, setRemainingLetters] = useState(MAX_DESC_LENGTH);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(addDishSchema),
+  });
+
+  // Update Remaning Letters count on change in description
+  const changeDescriptionHandler = (event) => {
+    const length = event.target.value.length;
+    setRemainingLetters(MAX_DESC_LENGTH - Number(length));
+  };
+
+  // Handle Form Submition
+  const submitHandler = (data) => {
+    // Assign an id (Not Totaly the right way)
+    const dish = {
+      id: Math.random(),
+      ...data,
+    };
+
+    onAdd(dish);
+    onClose();
+  };
+
   return (
     <motion.div
       variants={modalVariants}
@@ -51,57 +85,93 @@ const AddDishModal = ({ onClose }) => {
         </div>
 
         {/* Add Dish Form */}
-        <form className='text-darkGray'>
+        <form onSubmit={handleSubmit(submitHandler)} className='text-darkGray'>
           {/* Dish name/Dish Price flex Container */}
-          <div className='flex items-center justify-between gap-3 mb-3'>
-            {/* Reserve Dish - Input Control + potential error Message */}
-            <div className='relative flex-1'>
-              <img
-                src={ReserveIcon}
-                className='absolute w-5 top-50% -translate-y-50% left-4'
-                alt='Reserve dish icon'
-              />
+          <div className='flex items-start justify-between gap-3 mb-3'>
+            {/* Reserve Dish */}
+            <div className='flex-1'>
+              {/* Input Control */}
+              <div className='relative'>
+                <img
+                  src={ReserveIcon}
+                  className='absolute w-5 top-50% -translate-y-50% left-4'
+                  alt='Reserve dish icon'
+                />
 
-              <input
-                type='text'
-                className='w-full font-medium outline-none text-stone-800 placeholder:text-darkGray px-5 pl-12 py-3.5 border border-stone-300/80 rounded-2xl focus:border-stone-600 transition'
-                placeholder='Dish name'
-              />
+                <input
+                  type='text'
+                  {...register('name')}
+                  className={`w-full font-medium outline-none text-stone-800 placeholder:text-darkGray px-5 pl-12 py-3.5 border rounded-2xl focus:border-stone-600 transition ${
+                    errors.name ? '!border-red-500' : 'border-stone-300/80'
+                  }`}
+                  placeholder='Dish name'
+                />
+              </div>
+
+              {/* Potential Error Message */}
+              <p className='mt-1 text-sm font-medium text-red-500'>
+                {errors.name?.message}
+              </p>
             </div>
 
-            {/* Dish Price - Input Control + potential error Message */}
-            <div className='relative flex-1'>
-              <img
-                src={PriceIcon}
-                className='absolute w-5 top-50% -translate-y-50% left-4'
-                alt='Reserve dish icon'
-              />
+            {/* Dish Price */}
+            <div className='flex-1'>
+              {/* Input Control */}
+              <div className='relative'>
+                <img
+                  src={PriceIcon}
+                  className='absolute w-5 top-50% -translate-y-50% left-4'
+                  alt='Reserve dish icon'
+                />
 
-              <input
-                type='text'
-                className='w-full font-medium outline-none text-stone-800 placeholder:text-darkGray px-5 pl-12 py-3.5 border border-stone-300/80 rounded-2xl focus:border-stone-600 transition'
-                placeholder='Dish price'
-              />
+                <input
+                  type='text'
+                  {...register('price')}
+                  className={`w-full font-medium outline-none text-stone-800 placeholder:text-darkGray px-5 pl-12 py-3.5 border rounded-2xl focus:border-stone-600 transition ${
+                    errors.price ? '!border-red-500' : 'border-stone-300/80'
+                  }`}
+                  placeholder='Dish price'
+                />
+              </div>
+
+              {/* Potential Error Message */}
+              <p className='mt-1 text-sm font-medium text-red-500'>
+                {errors.price?.message}
+              </p>
             </div>
           </div>
+
           {/* Description */}
-          <div className='relative h-40 mb-3'>
-            <textarea
-              type='text'
-              maxLength={200}
-              className='w-full h-full p-6 font-medium transition border outline-none resize-none pr-14 text-stone-800 placeholder:text-darkGray border-stone-300/80 rounded-2xl focus:border-stone-600'
-              placeholder='Describe your dish and it’s Ingredients here.'
-            ></textarea>
+          <div className='mb-2.5'>
+            {/* Form Control */}
+            <div className='relative'>
+              <textarea
+                type='text'
+                {...register('description', {
+                  onChange: changeDescriptionHandler,
+                })}
+                maxLength={MAX_DESC_LENGTH}
+                className={`w-full h-40 p-6 font-medium transition border outline-none resize-none pr-14 text-stone-800 placeholder:text-darkGray border-stone-300/80 rounded-2xl focus:border-stone-600 ${
+                  errors.description ? '!border-red-500' : 'border-stone-300/80'
+                }`}
+                placeholder='Describe your dish and it’s Ingredients here.'
+              ></textarea>
 
-            {/* Remaining Characters */}
-            <span className='absolute text-primary bottom-6 right-6'>
-              200 letters reamining
-            </span>
+              {/* Remaining Characters */}
+              <span className='absolute text-primary bottom-6 right-6'>
+                {remainingLetters} letters reamining
+              </span>
 
-            {/* Edit Button */}
-            <button className='absolute flex items-center justify-center w-10 h-10 p-2.5 top-6 right-6 bg-secondary rounded-xl'>
-              <img src={EditIcon} className='w-full' alt='Edit Icon' />
-            </button>
+              {/* Edit Button */}
+              <button className='absolute flex items-center justify-center w-10 h-10 p-2.5 top-6 right-6 bg-secondary rounded-xl'>
+                <img src={EditIcon} className='w-full' alt='Edit Icon' />
+              </button>
+            </div>
+
+            {/* Potential Error Message */}
+            <p className='text-sm font-medium text-red-500'>
+              {errors.description?.message}
+            </p>
           </div>
           {/* Upload Image */}
           <div className='w-full p-6 mb-10 space-y-2 font-medium text-center transition border outline-none resize-none text-stone-800 border-stone-300/80 rounded-2xl'>

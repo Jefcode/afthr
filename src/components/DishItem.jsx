@@ -22,7 +22,8 @@ const DishItem = ({ dish, num, onRemove }) => {
     <motion.li
       key={dish.id}
       variants={dishVariants}
-      initial='visible'
+      initial='hidden'
+      animate='visible'
       exit='hidden'
       className='flex items-center justify-between px-6 py-4 space-x-10 transition-colors duration-200 bg-lightGray rounded-3xl hover:bg-neutral-50'
     >
@@ -44,7 +45,7 @@ const DishItem = ({ dish, num, onRemove }) => {
 
       {/* Dish Title Container */}
       <div>
-        <p className='w-28'>{dish.title}</p>
+        <p className='w-28'>{dish.name}</p>
       </div>
 
       {/* Dish Description */}

@@ -14,6 +14,10 @@ const DishesList = () => {
     setDishes((prevDishes) => prevDishes.filter((dish) => dish.id !== id));
   };
 
+  const addDishHandler = (dish) => {
+    setDishes((prevDishes) => prevDishes.concat(dish));
+  };
+
   return (
     <>
       {/* Sample Menu / Add Dish Button Flex Container */}
@@ -65,7 +69,10 @@ const DishesList = () => {
       {ReactDOM.createPortal(
         <AnimatePresence>
           {dishModalOpen && (
-            <AddDishModal onClose={() => setDishModalOpen(false)} />
+            <AddDishModal
+              onAdd={addDishHandler}
+              onClose={() => setDishModalOpen(false)}
+            />
           )}
         </AnimatePresence>,
         document.getElementById('overlay')
