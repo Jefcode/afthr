@@ -20,6 +20,7 @@ const dishVariants = {
 const DishItem = ({ dish, num, onRemove }) => {
   return (
     <motion.li
+      layout
       key={dish.id}
       variants={dishVariants}
       initial='hidden'
@@ -54,7 +55,7 @@ const DishItem = ({ dish, num, onRemove }) => {
       </div>
 
       {/* Price */}
-      <div>
+      <div className='w-14'>
         <p className='whitespace-nowrap'>€ {dish.price}</p>
       </div>
 

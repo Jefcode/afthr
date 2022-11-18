@@ -48,7 +48,16 @@ const DishesList = () => {
         </button>
       </div>
 
-      {/* Dishes List Container */}
+      {/* Dishes List Container
+       * This Could be a table. but to add Border radius to
+       * every item, i used ul and li. because you can't add
+       * that on tr (table row)
+       * However you can get around that by giving border radius
+       * to td (first and last)
+       *
+       * Using table might have been better if the app needed
+       * to be responsive in mobile screens
+       */}
       <div className='container px-6 mx-auto mb-10'>
         {/* Dishes List */}
         <ul className='flex flex-col space-y-2.5 text-darkGray'>

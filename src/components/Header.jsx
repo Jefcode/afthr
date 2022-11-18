@@ -40,7 +40,7 @@ const Header = () => {
         </div>
 
         {/* User Access/Calls Container */}
-        <div className='flex items-center space-x-3'>
+        <div className='flex items-stretch space-x-3'>
           {/* User Access Container */}
           <div className='flex px-3 py-4 cursor-pointer bg-lightGray rounded-2xl text-stone-900'>
             <img src={ProfileIcon} className='w-5' alt='Profile Icon' />
