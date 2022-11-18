@@ -160,7 +160,7 @@ const AddDishModal = ({ onClose, onAdd }) => {
 
               {/* Remaining Characters */}
               <span className='absolute text-primary bottom-6 right-6'>
-                {remainingLetters} letter{remainingLetters === 1 ? 's' : null}{' '}
+                {remainingLetters} letter{remainingLetters !== 1 ? 's' : null}{' '}
                 reamining
               </span>
 
